@@ -1,21 +1,13 @@
-import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ControllerModule } from './controllers/controller.module';
+import * as cors from 'cors';
+import { DbModule } from '@database/db.module';
 
 @Module({
-  imports: [
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'api',
-      database: 'vending_machine_db',
-      models: [__dirname + '/**/repositories/model/*.model.ts'],
-      autoLoadModels: true,
-      synchronize: true,
-    }),
-    ControllerModule,
-  ],
+  imports: [DbModule, ControllerModule],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(cors()).forRoutes('*');
+  }
+}

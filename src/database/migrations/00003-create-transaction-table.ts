@@ -7,7 +7,7 @@ module.exports = {
         autoIncrement: true,
       },
       products: {
-        type: Sequelize.JSONB,
+        type: Sequelize.ARRAY(Sequelize.JSONB),
       },
       totalPrice: {
         type: Sequelize.INTEGER,

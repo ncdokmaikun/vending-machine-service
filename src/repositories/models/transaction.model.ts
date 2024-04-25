@@ -1,11 +1,11 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import { BaseModel } from './base.model';
-import { MoneyCode, PaymentMethod } from 'src/constant/enum/payment.enum.dto';
+import { PaymentMethod } from 'src/constant/enum/payment.enum.dto';
 
 @Table({
   tableName: 'transaction',
 })
-export class ProductModel extends Model<BaseModel> {
+export class TransactionModel extends Model<BaseModel> {
   @Column({
     type: DataType.ARRAY(DataType.JSONB),
   })
@@ -40,8 +40,10 @@ export interface Order {
 
 export interface PaymentDetail {
   total: number;
-  paidWith: Array<{
-    code: MoneyCode;
-    amount: number;
-  }>;
+  paidWith: PaidWith[];
+}
+
+export interface PaidWith {
+  id: string;
+  amount: number;
 }
